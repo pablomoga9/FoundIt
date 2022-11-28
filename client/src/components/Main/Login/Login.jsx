@@ -1,11 +1,16 @@
 import React from "react";
+import { useContext } from "react";
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { Link } from "react-router-dom";
+import jwt from "jwt-decode";
+import {userContext} from '../../../context/userContext';
+import { useEffect } from "react";
 
 const Login = ()=>{
   const { register,formState: { errors }, handleSubmit } = useForm();
+  const {user,setUser} = useContext(userContext);
   const navigate = useNavigate();
 
   const onSubmit = async(form)=>{
@@ -14,13 +19,43 @@ const Login = ()=>{
       const res = await axios.post('http://localhost:5000/api/login',form,{
         withCredentials:true
       })
-      console.log(res);
-      navigate('/');
+      const getUser = await axios.get('http://localhost:5000/api/getUser',{
+        withCredentials:true
+      });
+      const userToken = getUser.data.msg.substr(6,getUser.data.msg.length);
+      const checkUser = await jwt(userToken);
+      await setUser(checkUser.name);
+      
+      navigate('/home');
     }
     catch(error){
       console.log(error.response)
     }
   }
+
+  useEffect (()=>{
+    const checkUser = async()=>{
+      try{
+        if(user===""){
+          console.log("ther's no user logged")
+        }
+        else{
+          const getUser = await axios.get('http://localhost:5000/api/getUser',{
+            withCredentials:true
+          });
+          const userToken = getUser.data.msg.substr(6,getUser.data.msg.length);
+          const checkUser = await jwt(userToken);
+          await setUser(checkUser.name);
+          console.log(user)
+          navigate('/home');
+        }
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+    checkUser()
+  },[])
 
   return(
     <>

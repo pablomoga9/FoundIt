@@ -46,8 +46,6 @@ const login = async(req,res)=>{
                     httpOnly:true,
                     secureProxy:true
                 }).send()
-                console.log(token)
-                return token;
             }
             else{
                 res.status(400).json({msg:'password is not correct'})
@@ -59,7 +57,27 @@ const login = async(req,res)=>{
     }
 }
 
+const getUser = async(req,res)=>{
+    try{
+        res.status(200).json({msg:req.headers.cookie})
+    }
+    catch(error){
+        res.status(400).json({msg:'there is no user logged'})
+    }
+}
+
+const logoutUser = async(req,res)=>{
+    try{
+        return res.clearCookie("token").redirect('/')
+    }
+    catch(error){
+        res.status(400).json({msg:'could not logout user'})
+    }
+}
+
 module.exports = {
     signup,
-    login
+    login,
+    getUser,
+    logoutUser
 }

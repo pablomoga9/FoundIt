@@ -1,5 +1,5 @@
 import React from "react";
 
-const checkUser = React.createContext();
+const userContext = React.createContext();
 
-export {checkUser};
+export {userContext};
