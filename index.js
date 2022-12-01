@@ -8,8 +8,10 @@ require('./utils/elephantSQL.js');
 const app = express();
 const port = process.env.PORT || 5000;
 
+const allowedOrigins = ['http://localhost:3000','http://localhost:3000/login']
+
 var corsOptions = {
-    origin:'http://localhost:3000',
+    origin:allowedOrigins,
     credentials:true
 }
 

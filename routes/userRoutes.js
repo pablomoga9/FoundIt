@@ -6,5 +6,6 @@
  routes.post('/login',userController.login);
  routes.get('/getUser',userController.getUser);
  routes.get('/logout',userController.logoutUser);
+ routes.get('/getPreferences/:user',userController.getPreferences)
 
 module.exports = routes;

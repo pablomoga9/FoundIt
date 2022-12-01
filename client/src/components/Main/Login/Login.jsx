@@ -24,7 +24,7 @@ const Login = ()=>{
       });
       const userToken = getUser.data.msg.substr(6,getUser.data.msg.length);
       const checkUser = await jwt(userToken);
-      await setUser(checkUser.name);
+      await setUser(checkUser.email);
       
       navigate('/home');
     }

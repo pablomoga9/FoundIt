@@ -68,10 +68,20 @@ const getUser = async(req,res)=>{
 
 const logoutUser = async(req,res)=>{
     try{
-        return res.clearCookie("token").redirect('/')
+        return res.clearCookie("token")
     }
     catch(error){
         res.status(400).json({msg:'could not logout user'})
+    }
+}
+
+const getPreferences = async(req,res)=>{
+    try{
+        const getPref = await userModels.getPreferences(req.params)
+        res.status(200).json(getPref)
+    }
+    catch(error){
+        res.status(400).json({msg:error})
     }
 }
 
@@ -79,5 +89,6 @@ module.exports = {
     signup,
     login,
     getUser,
-    logoutUser
+    logoutUser,
+    getPreferences
 }

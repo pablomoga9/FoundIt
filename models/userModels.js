@@ -28,7 +28,19 @@ const getUserByEmail = async(email)=>{
     }
 }
 
+const getPreferences = async(user)=>{
+    try{
+        const getPrefs = await pool.query(queries.getPreferences,[user]);
+        const results = getPrefs.rows;
+        return results;
+    }
+    catch(error){
+        console.log(error.stack);
+    }
+}
+
 module.exports = {
     createUser,
-    getUserByEmail
+    getUserByEmail,
+    getPreferences
 }

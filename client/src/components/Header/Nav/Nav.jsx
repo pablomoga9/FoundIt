@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import {Link} from 'react-router-dom';
 import { useContext } from "react";
 import { userContext } from "../../../context/userContext";
-import { useEffect,useState } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
@@ -14,19 +14,7 @@ const Nav = ()=>{
     setClicked(!clicked)
   }
 
-  // useEffect(()=>{
-  //   const checkUser = async()=>{
-  //     try{
-  //       if(user===""){
 
-  //       }
-  //     }
-  //     catch(error){
-  //       console.log(error);
-  //     }
-  //   }
-  //   checkUser();
-  // })
 
   const handleLogout= async()=>{
     try{

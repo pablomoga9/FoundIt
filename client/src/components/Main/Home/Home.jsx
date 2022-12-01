@@ -1,9 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode } from 'swiper';
+import 'swiper/css';
+import "swiper/css/free-mode";
+import { Link } from "react-router-dom";
 
-class Home extends Component {
-  render() {
-    return <div>Home</div>;
-  }
+const Home = ()=>{
+  return(
+    <React.Fragment>
+      <Swiper freeMode={true}
+          grabCursor={true}
+          modules={[FreeMode]}
+          className='homeDirectory'
+          slidesPerView={2}
+          spaceBetween={30}>
+          <SwiperSlide className='plusCard'><Link to="/list/restaurants"><h3>Ver más</h3></Link></SwiperSlide>
+          <SwiperSlide className='plusCard'><Link to="/list/restaurants"><h3>Ver más</h3></Link></SwiperSlide>
+          <SwiperSlide className='plusCard'><Link to="/list/restaurants"><h3>Ver más</h3></Link></SwiperSlide>
+          <SwiperSlide className='plusCard'><Link to="/list/restaurants"><h3>Ver más</h3></Link></SwiperSlide>
+        </Swiper>
+    </React.Fragment>
+  )
 }
 
 export default Home;
