@@ -10,7 +10,7 @@ const signup = async(req,res)=>{
         let newBody = {
             ...req.body,
             image:"https://cdn-icons-png.flaticon.com/512/16/16363.png",
-            preferences:[],
+            preferences:["example"],
             whiteList:[]
         }
 
@@ -91,6 +91,7 @@ const setPreferences = async(req,res)=>{
             user:req.params,
             preferences:req.body
         }
+        console.log(data)
         const setPref = await userModels.setPreferences(req.params)
         res.status(200).json(setPref);
     }

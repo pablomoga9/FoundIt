@@ -32,6 +32,7 @@ const getPreferences = async(user)=>{
     try{
         const getPrefs = await pool.query(queries.getPreferences,[user]);
         const results = getPrefs.rows;
+        console.log(results);
         return results;
     }
     catch(error){
@@ -41,7 +42,10 @@ const getPreferences = async(user)=>{
 
 const setPreferences = async(data)=>{
     try{
-        const setPrefs = await pool.query(queries.setPreferences,[])
+        const getPrefs = await getPreferences(data.user);
+        const setPrefs = await pool.query(queries.setPreferences,[data.preferences,data.user]);
+        const results = await setPrefs.rows;
+        return results;
     }
     catch(error){
         console.log(error);
@@ -51,5 +55,6 @@ const setPreferences = async(data)=>{
 module.exports = {
     createUser,
     getUserByEmail,
-    getPreferences
+    getPreferences,
+    setPreferences
 }

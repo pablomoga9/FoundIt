@@ -17,8 +17,13 @@ const Profile = () => {
 
   const onSubmit = async (form) => {
     try {
-      setPreferences(form,...preferences)
-      const res = await axios.update('http://localhost:5000/api/setPreferences/${user}',preferences)
+      
+       
+        await setPreferences(form,...preferences)
+        console.log(preferences);
+        // const res = await axios.put(`http://localhost:5000/api/setPreferences/${user}`,preferences)
+      
+      
     }
     catch (error) {
       console.log(error)
@@ -30,15 +35,12 @@ const Profile = () => {
     { user ? console.log(user) : navigate('/login') }
     const getPreferences = async () => {
       try {
-        if (preferences !== null) {
-          console.log(preferences[0]);
-          showPreferences = false;
-        }
-        else {
-          const res = axios.get(`http://localhost:5000/api/getPreferences/${user}`);
+       
+          const res = await axios.get(`http://localhost:5000/api/getPreferences/${user}`);
+          console.log(res.data);
           setPreferences(res.data);
           showPreferences = true;
-        }
+        
       }
       catch (error) {
         console.log(error)
@@ -56,7 +58,7 @@ const Profile = () => {
       })} /><input type="submit" value="Add" /></form>
       </div>
       <div className="preferencesContainer">{showPreferences ? preferences.forEach(element => {
-        <p>{element}</p>
+        <p>{element}{console.log("sisi")}</p>
       }) : console.log("nono")}</div>
     </React.Fragment>
   )
