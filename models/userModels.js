@@ -39,6 +39,15 @@ const getPreferences = async(user)=>{
     }
 }
 
+const setPreferences = async(data)=>{
+    try{
+        const setPrefs = await pool.query(queries.setPreferences,[])
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
 module.exports = {
     createUser,
     getUserByEmail,

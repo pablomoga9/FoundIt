@@ -85,10 +85,25 @@ const getPreferences = async(req,res)=>{
     }
 }
 
+const setPreferences = async(req,res)=>{
+    try{
+        const data = {
+            user:req.params,
+            preferences:req.body
+        }
+        const setPref = await userModels.setPreferences(req.params)
+        res.status(200).json(setPref);
+    }
+    catch(error){
+        res.status(400).json({msg:'could not update preferences'})
+    }
+}
+
 module.exports = {
     signup,
     login,
     getUser,
     logoutUser,
-    getPreferences
+    getPreferences,
+    setPreferences
 }

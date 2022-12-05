@@ -1,48 +1,63 @@
 import React from "react";
 import { useEffect } from "react";
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useState,useContext } from "react";
-import {userContext} from '../../../context/userContext';
-import {useNavigate} from 'react-router-dom';
+import { useState, useContext } from "react";
+import { userContext } from '../../../context/userContext';
+import { useNavigate } from 'react-router-dom';
 
-const Profile = () =>{
-  const { register,formState: { errors }, handleSubmit } = useForm();
-  const changePreferences = false;
-  const [preferences,setPreferences] = useState(null);
-  const {user,setUser} = useContext(userContext);
+const Profile = () => {
+  const { register, formState: { errors }, handleSubmit } = useForm();
+  let [addButton, setAddButton] = useState(false);
+  const [preferences, setPreferences] = useState(null);
+  let showPreferences = false;
+  const { user, setUser } = useContext(userContext);
   const navigate = useNavigate();
+  const [name, setName] = useState("");
 
-
-  function handleClick(){
-    changePreferences = true;
+  const onSubmit = async (form) => {
+    try {
+      setPreferences(form,...preferences)
+      const res = await axios.update('http://localhost:5000/api/setPreferences/${user}',preferences)
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 
 
-  useEffect(()=>{
-    {user?console.log(user):navigate('/login')}
-    const getPreferences = async()=>{
-      try{
-        if(preferences!==null){
+  useEffect(() => {
+    { user ? console.log(user) : navigate('/login') }
+    const getPreferences = async () => {
+      try {
+        if (preferences !== null) {
           console.log(preferences[0]);
+          showPreferences = false;
         }
-        else{
+        else {
           const res = axios.get(`http://localhost:5000/api/getPreferences/${user}`);
           setPreferences(res.data);
+          showPreferences = true;
         }
       }
-      catch(error){
+      catch (error) {
         console.log(error)
       }
     }
     getPreferences();
-  },[])
-  return(
+  }, [])
+  return (
     <React.Fragment>
-      <button onClick={handleClick}></button>
-      {changePreferences ? <div className="preferencesContainer"><form></form></div>:<div className="preferencesContainer">{preferences.forEach(element => {
+      <div className="preferenceAdd"><form onSubmit={handleSubmit(onSubmit)}><input type="text" name="preference" {...register('preference', {
+        required: {
+          value: true,
+          message: "Por favor introduce un Email válido"
+        }
+      })} /><input type="submit" value="Add" /></form>
+      </div>
+      <div className="preferencesContainer">{showPreferences ? preferences.forEach(element => {
         <p>{element}</p>
-      })}</div>}
+      }) : console.log("nono")}</div>
     </React.Fragment>
   )
 }
